@@ -3,7 +3,7 @@ import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import axios from "axios";
-import Marquee from "react-marquee";
+import Marquee from "react-fast-marquee";
 import jsmediatags from "jsmediatags";
 import { Howl, Howler } from "howler";
 import Tracks from "./Tracks";
@@ -190,7 +190,6 @@ class Mobile extends Component {
     let time = Math.round(this.state.currentTrack.seek());
     let duration = Math.round(this.state.currentTrack.duration());
     let progress = ((time / duration) * 100).toFixed(2);
-    //console.log(progress);
     this.setState({ progress });
   };
 
@@ -201,9 +200,6 @@ class Mobile extends Component {
     currentMinutes = ("0" + currentMinutes).slice(-2);
     currentSeconds = ("0" + currentSeconds).slice(-2);
     this.setState({ currentSeconds, currentMinutes, currentDuration });
-    console.log("currentDuration", currentDuration);
-    console.log("duration", this.state.duration);
-    console.log("dda");
     if (currentDuration === 0) {
       let currentTrack = this.state.currentTrack;
       currentTrack.stop();      
@@ -224,51 +220,10 @@ class Mobile extends Component {
     let duration = Math.round(this.state.currentTrack.duration());
     let seek = (e.target.value * duration) / 100;
     currentTrack.seek(seek);
-    console.log("current progress value ", e.target.value);
     this.setState({ currentTrack, progress: e.target.value }, () =>
       this.incTime()
     );
   };
-  /*
-    drawCanvas = () =>{
-      let audio = this.state.currentTrack;
-      var analyser = Howler.ctx.createAnalyser();
-      Howler.masterGain.connect(analyser); 
-      analyser.fftSize = 256;
-      var bufferLength = analyser.frequencyBinCount;
-      console.log(bufferLength);
-      var dataArray = new Uint8Array(bufferLength);
-      var WIDTH = 370;
-      var HEIGHT = 200;
-      var barWidth = (WIDTH / bufferLength) * 2.5;
-      var barHeight;
-      var x = 0;  
-          
-    }
-  
-    renderFrame = () => {
-      requestAnimationFrame(renderFrame);
-      x = 0;
-  
-      analyser.getByteFrequencyData(dataArray);
-  
-      ctx.fillStyle = "#000";
-      ctx.fillRect(0, 0, WIDTH, HEIGHT);
-  
-      for (var i = 0; i < bufferLength; i++) {
-        barHeight = dataArray[i];
-        
-        var r = barHeight + (25 * (i/bufferLength));
-        var g = 250 * (i/bufferLength);
-        var b = 50;
-  
-        ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-        ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
-  
-        x += barWidth + 1;
-      }
-    }  
-  */
 
   toggleAudio = () => {
     this.setState({ tracksVisible: !this.state.tracksVisible });

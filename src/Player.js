@@ -168,6 +168,7 @@ class Player extends Component {
     let currentTrack = this.state.currentTrack;
     if (this.props.store.playing) {
       currentTrack.stop();
+      
     }
     let interval = this.state.interval;
     clearInterval(interval);
@@ -187,8 +188,8 @@ class Player extends Component {
   nextTrack = () => {
     let currentTrack = this.state.currentTrack;
     currentTrack.volume(this.state.volume / 10);
-    console.log("currentTrack", currentTrack);
     currentTrack.stop();
+    
     if (this.props.store.currentId < this.state.audio.length - 1) {
       this.props.actions.selectTrack(this.props.store.currentId + 1);
     } else {
@@ -203,6 +204,7 @@ class Player extends Component {
     let currentTrack = this.state.currentTrack;
     currentTrack.volume(this.state.volume / 10);
     currentTrack.stop();
+    
     if (this.props.store.currentId > 0) {
       this.props.actions.selectTrack(this.props.store.currentId - 1);
     } else {
@@ -248,7 +250,8 @@ class Player extends Component {
     this.setState({ currentSeconds, currentMinutes, currentDuration });
     if (currentDuration === this.state.currentTrack.duration()) {
       let currentTrack = this.state.currentTrack;
-      currentTrack.stop();      
+      currentTrack.stop(); 
+
       if (this.props.store.currentId < this.state.audio.length - 1) {
         this.props.actions.selectTrack(this.props.store.currentId + 1);
       } else {

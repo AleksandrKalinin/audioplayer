@@ -29,6 +29,8 @@ class SingleTrack extends Component {
   }
 
   componentDidUpdate(prevProps){
+    console.log("previos Props", prevProps);
+    console.log("current Props", this.props.store);
     let wavesurfer = this.state.wavesurfer;
 
     if (prevProps.store.progress !== this.props.store.progress && this.props.store.currentId === this.props.index) {
@@ -37,6 +39,12 @@ class SingleTrack extends Component {
       } else {
         wavesurfer.skip(this.props.store.progress - prevProps.store.progress);
       }
+    }
+    if (this.props.store.playing === false && 
+        this.props.store.currentId === this.props.index && 
+        prevProps.store.currentId === this.props.store.currentId &&
+        prevProps.store.playing === true) {
+      wavesurfer.pause();
     }
 
     if(prevProps.store.currentId !== this.props.store.currentId){ 
@@ -70,7 +78,6 @@ class SingleTrack extends Component {
 
 
   selectTrack = (id) => {
-    console.log(this.props.store);
     let wavesurfer = this.state.wavesurfer;
     wavesurfer.play();
     if (this.props.store.playing && this.props.store.currentId === id) {
@@ -81,7 +88,6 @@ class SingleTrack extends Component {
       this.props.actions.selectTrack(id);
       wavesurfer.play();
     } else {
-      console.log("changing playing state");
       this.props.actions.changePlayingState(!this.props.store.playing);
       this.props.actions.selectTrack(id);
     }
